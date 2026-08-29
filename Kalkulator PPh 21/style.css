@@ -1,0 +1,255 @@
+:root {
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+}
+
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  padding: 32px 16px 40px;   
+}
+
+main {
+  gap: var(--space-5);       
+}
+
+header {
+  margin-bottom: var(--space-6);   
+}
+
+.kartu-form, .kartu-hasil, .riwayat {
+  padding: var(--space-5);         
+  border-radius: 18px;             
+}
+
+
+body {
+  font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+  background: #F2F4F5;
+  color: #2B333B;
+  line-height: 1.5;
+  padding: 20px;
+}
+
+
+header {
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+header h1 {
+  color: #1E2A3A;
+  font-size: 24px;
+}
+
+header p {
+  color: #0F766E;
+  font-size: 14px;
+}
+
+main {
+  max-width: 480px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+
+.hasil-hero {
+  background: #680e08;
+  color: white;
+  border-radius: 14px;
+  padding: 18px 20px;
+  margin: var(--space-4) 0 var(--space-5);
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.hero-label {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  opacity: 0.85;
+}
+
+.hero-value {
+  font-size: 28px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+
+
+.stat-list {
+  margin-bottom: var(--space-4);
+}
+
+.stat-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 0;
+  border-bottom: 1px solid #D7DCE0;
+  font-size: 14px;
+}
+
+.stat-row:last-child {
+  border-bottom: none;
+}
+
+.stat-row span:first-child {
+  color: #5B6570;
+}
+
+.stat-row span:last-child {
+  font-weight: 600;
+  color: #1E2A3A;
+}
+
+
+
+.kartu-form, .kartu-hasil, .riwayat {
+  background: white;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.kartu-form h2, .kartu-hasil h2, .riwayat h2 {
+  color: #1E2A3A;
+  font-size: 16px;
+  margin-bottom: 12px;
+}
+
+
+
+.kartu-hasil h3 {
+  margin-top: var(--space-5);
+  margin-bottom: var(--space-2);
+}
+
+
+
+@media (max-width: 400px) {
+  body { padding: 24px 14px 32px; }
+  .kartu-form, .kartu-hasil, .riwayat { padding: var(--space-4); }
+  .hero-value { font-size: 24px; }
+}
+
+
+
+label {
+  display: block;
+  font-size: 13px;
+  color: #5B6570;
+  margin-top: 10px;
+  margin-bottom: 4px;
+}
+
+input, select {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #D7DCE0;
+  border-radius: 8px;
+  font-size: 14px;
+}
+
+input:focus, select:focus {
+  outline: none;
+  border-color: #0F766E;
+}
+
+button {
+  width: 100%;
+  padding: 12px;
+  margin-top: 16px;
+  background: #3a0f02;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+button:hover {
+  background: #000000;
+}
+
+.error {
+  color: #DC2626;
+  font-size: 13px;
+  margin-top: 8px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 8px;
+  font-size: 13px;
+}
+
+th, td {
+  text-align: left;
+  padding: 8px;
+  border-bottom: 1px solid #D7DCE0;
+}
+
+th {
+  background: #E6F4F2;
+  color: #0F766E;
+}
+
+#daftarRiwayat {
+  list-style: none;
+}
+
+#daftarRiwayat li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 0;
+  border-bottom: 1px solid #D7DCE0;
+  font-size: 13px;
+}
+
+#daftarRiwayat li:last-child {
+  border-bottom: none;
+}
+
+.catatan {
+  background: #E6F4F2;
+  color: #817905;
+  border-left: 3px solid #1ccf93;
+  padding: 10px 12px;
+  border-radius: 6px;
+  font-size: 12.5px;
+  line-height: 1.5;
+  margin-bottom: 14px;
+}
+
+.btnHapus {
+  width: auto;
+  margin-top: 0;
+  padding: 6px 12px;
+  background: #fd2121;
+  font-size: 12px;
+}
+
+footer {
+  max-width: 480px;
+  margin: 24px auto 0;
+  text-align: center;
+  font-size: 12px;
+  color: #5B6570;
+}

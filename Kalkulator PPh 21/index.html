@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kalkulator PPh 21 Sederhana</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <header>
+    <h1>Kalkulator PPh 21</h1>
+    <p>Estimasi PPh 21 tahunanmu dalam hitungan detik</p>
+  </header>
+
+  <main>
+    <!-- Kartu Form -->
+    <section class="kartu-form">
+      <h2>Data Kamu</h2>
+
+      <label for="gaji">Gaji Bruto per Bulan (Rp)</label>
+      <input type="number" id="gaji" placeholder="contoh: 8000000">
+
+      <label for="status">Status Pernikahan</label>
+      <select id="status">
+        <option value="TK">Tidak Kawin (TK)</option>
+        <option value="K">Kawin (K)</option>
+      </select>
+
+      <label for="tanggungan">Jumlah Tanggungan (maks. 3)</label>
+      <input type="number" id="tanggungan" min="0" max="3" value="0">
+
+      <button id="btnHitung">Hitung</button>
+      <p id="pesanError" class="error"></p>
+    </section>
+
+    <!-- Kartu Hasil, sembunyi dulu sampai user klik Hitung -->
+  <section class="kartu-hasil" id="kartuHasil" hidden>
+    <h2>Hasil Perhitungan</h2>
+    <p class="catatan">
+      ⓘ Ini estimasi <strong>pajak tahunan</strong> pakai tarif progresif Pasal 17 UU HPP,
+      bukan potongan bulanan skema TER yang biasa dipakai Januari–November. Untuk potongan
+      per bulan, jumlahnya bisa sedikit berbeda dari slip gaji.
+    </p>
+
+    <div class="hasil-hero">
+      <span class="hero-label">Take-home per Bulan</span>
+      <span class="hero-value" id="hasilTakeHome"></span>
+    </div>
+
+    <div class="stat-list">
+      <div class="stat-row">
+        <span>PTKP</span>
+        <span id="hasilPtkp"></span>
+      </div>
+      <div class="stat-row">
+        <span>PKP</span>
+        <span id="hasilPkp"></span>
+      </div>
+      <div class="stat-row">
+        <span>Total Pajak Setahun</span>
+        <span id="hasilTotalPajak"></span>
+      </div>
+    </div>
+
+    <h3>Rincian per Lapisan Tarif</h3>
+    <table id="tabelRincian"></table>
+    </section>
+
+    <!-- Riwayat -->
+    <section class="riwayat">
+      <h2>Riwayat Perhitungan</h2>
+      <ul id="daftarRiwayat"></ul>
+    </section>
+  </main>
+
+  <footer>
+    <p>Estimasi untuk keperluan edukasi, bukan pengganti aplikasi resmi DJP.</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
