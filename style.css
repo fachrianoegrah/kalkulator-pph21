@@ -138,6 +138,13 @@ main {
 }
 
 
+.catatan-kecil {
+  font-size: 11px;
+  color: #5B6570;
+  margin-top: -16px;
+  margin-bottom: var(--space-4);
+}
+
 
 @media (max-width: 400px) {
   body { padding: 24px 14px 32px; }

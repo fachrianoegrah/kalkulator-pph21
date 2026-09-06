@@ -41,6 +41,12 @@ function hitungPKP(gajiBrutoTahunan, biayaJabatan, iuranPensiunTahunan, ptkp) {
   return Math.max(pkp, 0);
 }
 
+function hitungBPJSKesehatan(gajiBrutoBulanan) {
+  const batasUpah = 12000000;
+  const dasarIuran = Math.min(gajiBrutoBulanan, batasUpah);
+  return dasarIuran * 0.01;
+}
+
 function hitungSemua(gajiBulanan, status, tanggungan, pensiunBulanan) {
   const gajiBrutoTahunan = gajiBulanan * 12;
   const ptkp = hitungPTKP(status, tanggungan);
@@ -48,9 +54,11 @@ function hitungSemua(gajiBulanan, status, tanggungan, pensiunBulanan) {
   const iuranPensiunTahunan = pensiunBulanan * 12;
   const pkp = hitungPKP(gajiBrutoTahunan, biayaJabatan, iuranPensiunTahunan, ptkp);
   const { totalPajak, rincian } = hitungPajakProgresif(pkp);
-  const takeHomePerBulan = (gajiBrutoTahunan - totalPajak) / 12;
 
-  return { ptkp, pkp, biayaJabatan, iuranPensiunTahunan, totalPajak, takeHomePerBulan, rincian };
+  const bpjsKesehatanBulanan = hitungBPJSKesehatan(gajiBulanan);
+  const takeHomePerBulan = (gajiBrutoTahunan - totalPajak) / 12 - bpjsKesehatanBulanan;
+
+  return { ptkp, pkp, biayaJabatan, iuranPensiunTahunan, bpjsKesehatanBulanan, totalPajak, takeHomePerBulan, rincian };
 }
 
 const inputGaji = document.getElementById('gaji');
@@ -82,6 +90,7 @@ function tampilkanHasil(hasil, gajiBrutoTahunan) {
   document.getElementById('hasilTakeHome').textContent = formatRupiah(hasil.takeHomePerBulan);
   document.getElementById('hasilBiayaJabatan').textContent = formatRupiah(hasil.biayaJabatan);
   document.getElementById('hasilIuranPensiun').textContent = formatRupiah(hasil.iuranPensiunTahunan);
+  document.getElementById('hasilBpjs').textContent = formatRupiah(hasil.bpjsKesehatanBulanan);
 
   const tabel = document.getElementById('tabelRincian');
   tabel.innerHTML = '<tr><th>Tarif</th><th>PKP Kena</th><th>Pajak</th></tr>';
