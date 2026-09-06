@@ -36,25 +36,27 @@ function hitungBiayaJabatan(gajiBrutoTahunan) {
   return Math.min(biaya, batasMaksimal);
 }
 
-function hitungPKP(gajiBrutoTahunan, biayaJabatan, ptkp) {
-  const pkp = gajiBrutoTahunan - biayaJabatan - ptkp;
+function hitungPKP(gajiBrutoTahunan, biayaJabatan, iuranPensiunTahunan, ptkp) {
+  const pkp = gajiBrutoTahunan - biayaJabatan - iuranPensiunTahunan - ptkp;
   return Math.max(pkp, 0);
 }
 
-function hitungSemua(gajiBulanan, status, tanggungan) {
+function hitungSemua(gajiBulanan, status, tanggungan, pensiunBulanan) {
   const gajiBrutoTahunan = gajiBulanan * 12;
   const ptkp = hitungPTKP(status, tanggungan);
   const biayaJabatan = hitungBiayaJabatan(gajiBrutoTahunan);
-  const pkp = hitungPKP(gajiBrutoTahunan, biayaJabatan, ptkp);
+  const iuranPensiunTahunan = pensiunBulanan * 12;
+  const pkp = hitungPKP(gajiBrutoTahunan, biayaJabatan, iuranPensiunTahunan, ptkp);
   const { totalPajak, rincian } = hitungPajakProgresif(pkp);
   const takeHomePerBulan = (gajiBrutoTahunan - totalPajak) / 12;
 
-  return { ptkp, pkp, biayaJabatan, totalPajak, takeHomePerBulan, rincian };
+  return { ptkp, pkp, biayaJabatan, iuranPensiunTahunan, totalPajak, takeHomePerBulan, rincian };
 }
 
 const inputGaji = document.getElementById('gaji');
 const inputStatus = document.getElementById('status');
 const inputTanggungan = document.getElementById('tanggungan');
+const inputPensiun = document.getElementById('pensiun');
 const btnHitung = document.getElementById('btnHitung');
 const pesanError = document.getElementById('pesanError');
 const kartuHasil = document.getElementById('kartuHasil');
@@ -79,7 +81,7 @@ function tampilkanHasil(hasil, gajiBrutoTahunan) {
   document.getElementById('hasilTotalPajak').textContent = formatRupiah(hasil.totalPajak);
   document.getElementById('hasilTakeHome').textContent = formatRupiah(hasil.takeHomePerBulan);
   document.getElementById('hasilBiayaJabatan').textContent = formatRupiah(hasil.biayaJabatan);
-
+  document.getElementById('hasilIuranPensiun').textContent = formatRupiah(hasil.iuranPensiunTahunan);
 
   const tabel = document.getElementById('tabelRincian');
   tabel.innerHTML = '<tr><th>Tarif</th><th>PKP Kena</th><th>Pajak</th></tr>';
@@ -107,7 +109,9 @@ btnHitung.addEventListener('click', () => {
   }
   pesanError.textContent = '';
 
-  const hasil = hitungSemua(gajiBulanan, status, tanggungan);
+  const pensiunBulanan = parseFloat(inputPensiun.value) || 0;
+  const hasil = hitungSemua(gajiBulanan, status, tanggungan, pensiunBulanan);
+
   tampilkanHasil(hasil);
 
   const entry = {
@@ -123,6 +127,7 @@ btnHitung.addEventListener('click', () => {
   };
   simpanRiwayat(entry);
   tampilkanRiwayat();
+  
 });
 
 // LocalStorage
