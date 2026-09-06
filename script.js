@@ -30,19 +30,26 @@ function hitungPTKP(status, tanggungan) {
   return dasar + tambahanKawin + tambahanTanggungan;
 }
 
-function hitungPKP(gajiBrutoTahunan, ptkp) {
-  const pkp = gajiBrutoTahunan - ptkp;
-  return Math.max(pkp, 0);   // PKP nggak boleh negatif
+function hitungBiayaJabatan(gajiBrutoTahunan) {
+  const biaya = gajiBrutoTahunan * 0.05;
+  const batasMaksimal = 6000000; // Rp 500.000 x 12 bulan
+  return Math.min(biaya, batasMaksimal);
+}
+
+function hitungPKP(gajiBrutoTahunan, biayaJabatan, ptkp) {
+  const pkp = gajiBrutoTahunan - biayaJabatan - ptkp;
+  return Math.max(pkp, 0);
 }
 
 function hitungSemua(gajiBulanan, status, tanggungan) {
   const gajiBrutoTahunan = gajiBulanan * 12;
   const ptkp = hitungPTKP(status, tanggungan);
-  const pkp = hitungPKP(gajiBrutoTahunan, ptkp);
+  const biayaJabatan = hitungBiayaJabatan(gajiBrutoTahunan);
+  const pkp = hitungPKP(gajiBrutoTahunan, biayaJabatan, ptkp);
   const { totalPajak, rincian } = hitungPajakProgresif(pkp);
   const takeHomePerBulan = (gajiBrutoTahunan - totalPajak) / 12;
 
-  return { ptkp, pkp, totalPajak, takeHomePerBulan, rincian };
+  return { ptkp, pkp, biayaJabatan, totalPajak, takeHomePerBulan, rincian };
 }
 
 const inputGaji = document.getElementById('gaji');
@@ -71,6 +78,8 @@ function tampilkanHasil(hasil, gajiBrutoTahunan) {
   document.getElementById('hasilPkp').textContent = formatRupiah(hasil.pkp);
   document.getElementById('hasilTotalPajak').textContent = formatRupiah(hasil.totalPajak);
   document.getElementById('hasilTakeHome').textContent = formatRupiah(hasil.takeHomePerBulan);
+  document.getElementById('hasilBiayaJabatan').textContent = formatRupiah(hasil.biayaJabatan);
+
 
   const tabel = document.getElementById('tabelRincian');
   tabel.innerHTML = '<tr><th>Tarif</th><th>PKP Kena</th><th>Pajak</th></tr>';
@@ -85,7 +94,6 @@ function tampilkanHasil(hasil, gajiBrutoTahunan) {
   kartuHasil.hidden = false;  // munculkan kartu hasil yang tadinya disembunyiin
 }
 
-
 btnHitung.addEventListener('click', () => {
   const gajiBulanan = parseFloat(inputGaji.value);
   const status = inputStatus.value;
@@ -99,14 +107,8 @@ btnHitung.addEventListener('click', () => {
   }
   pesanError.textContent = '';
 
-  const gajiBrutoTahunan = gajiBulanan * 12;
-  const ptkp = hitungPTKP(status, tanggungan);
-  const pkp = hitungPKP(gajiBrutoTahunan, ptkp);
-  const { totalPajak, rincian } = hitungPajakProgresif(pkp);
-  const takeHomePerBulan = (gajiBrutoTahunan - totalPajak) / 12;
-
-  const hasil = { ptkp, pkp, totalPajak, takeHomePerBulan, rincian };
-  tampilkanHasil(hasil, gajiBrutoTahunan);
+  const hasil = hitungSemua(gajiBulanan, status, tanggungan);
+  tampilkanHasil(hasil);
 
   const entry = {
     id: Date.now(),
@@ -114,16 +116,14 @@ btnHitung.addEventListener('click', () => {
     gajiBulanan,
     status,
     tanggungan,
-    ptkp,
-    pkp,
-    totalPajakTahun: totalPajak,
-    takeHomePerBulan
+    ptkp: hasil.ptkp,
+    pkp: hasil.pkp,
+    totalPajakTahun: hasil.totalPajak,
+    takeHomePerBulan: hasil.takeHomePerBulan
   };
   simpanRiwayat(entry);
   tampilkanRiwayat();
 });
-
-
 
 // LocalStorage
 function simpanRiwayat(entry) {
